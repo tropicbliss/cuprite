@@ -4,11 +4,27 @@ A fast and simple to use Minecraft server backup daemon.
 
 ## Install
 
-Download the [latest release](https://github.com/tropicbliss/cuprite/releases/latest) for your operating system.
+### Pre-compiled binaries (only available for x86-64 Linux systems)
+
+Download the [latest release](https://github.com/tropicbliss/cuprite/releases/latest).
 
 ```shell
 sudo chmod +x cuprite
 ```
+
+### Compiling from source
+
+If you are on another platform, compile the binary yourself to try it out:
+
+```sh
+git clone https://github.com/tropicbliss/cuprite
+cd cuprite
+cargo build --release
+```
+
+Compiling from source requires the latest stable version of Rust. Older Rust versions may be able to compile `cuprite`, but they are not guaranteed to keep working.
+
+The binary will be located in `target/release`.
 
 ## Usage
 
