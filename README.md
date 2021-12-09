@@ -30,7 +30,7 @@ The binary will be located in `target/release`.
 ## Usage
 
 ```shell
-./cuprite -i world -m 128 -o backups -p password -P 25575
+./cuprite -i world -m 128 -o backups -P password -p 25575 -c 3
 ```
 
 ### Enable RCON
