@@ -4,6 +4,11 @@ version = "0.1.0"
 edition = "2021"
 authors = ["tropicbliss <tropicbliss@protonmail.com>"]
 description = "A fast and simple to use Minecraft server backup daemon"
+license = "MIT"
+homepage = "https://github.com/tropicbliss/cuprite"
+documentation = "https://github.com/tropicbliss/cuprite"
+repository = "https://github.com/tropicbliss/cuprite"
+keywords = ["minecraft", "backup", "rcon", "minecraft-server", "minecraft-backup"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
