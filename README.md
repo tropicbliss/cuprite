@@ -1,6 +1,6 @@
 # cuprite
 
-A fast and simple to use Minecraft server backup daemon.
+A fast and simple Minecraft server backup daemon.
 
 ## Install
 
