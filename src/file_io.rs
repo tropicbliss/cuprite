@@ -6,6 +6,7 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs::{create_dir_all, read_dir, remove_file, File};
 use std::path::PathBuf;
+use tar::Builder;
 
 pub struct FileManipulator {
     input: PathBuf,
@@ -22,7 +23,7 @@ impl FileManipulator {
         }
     }
 
-    pub fn rw_zip(&self) -> Result<()> {
+    pub fn read_to_zip(&self) -> Result<()> {
         if !self.input.is_dir() {
             bail!("Input path is not a directory");
         }
@@ -40,6 +41,7 @@ impl FileManipulator {
         let enc = GzEncoder::new(tar_gz, Compression::default());
         let mut tar = tar::Builder::new(enc);
         tar.append_dir_all(&self.output, &self.input)?;
+        tar.finish()?;
         Ok(())
     }
 
