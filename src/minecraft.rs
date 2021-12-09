@@ -8,7 +8,7 @@ pub struct Server {
 
 impl Server {
     pub fn new(port: u16, password: String) -> Result<Self> {
-        let addr = format!("127.0.0.1:{}", port);
+        let addr = format!("0.0.0.0:{}", port);
         let client = Client::new(&addr)?;
         Ok(Self { client, password })
     }
