@@ -61,10 +61,9 @@ impl FileManipulator {
             let path = path?;
             if path.file_type()?.is_file() {
                 if let Some(file_name) = path.file_name().to_str() {
-                    if RE.is_match(file_name)
-                        && path.metadata().is_ok()
-                        && path.metadata().unwrap().modified().is_ok()
-                    {
+                    if RE.is_match(file_name) {
+                        path.metadata()?;
+                        path.metadata().unwrap().created()?;
                         result.push(path);
                     }
                 }
