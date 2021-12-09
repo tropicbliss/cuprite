@@ -18,11 +18,11 @@ pub struct Args {
     pub max_backups: NonZeroUsize,
 
     /// RCON port
-    #[structopt(short = "P", long = "port", default_value = "25575")]
+    #[structopt(short = "p", long = "port", default_value = "25575")]
     pub rcon_port: u16,
 
     /// RCON password
-    #[structopt(short = "p", long = "password")]
+    #[structopt(short = "P", long = "password")]
     pub rcon_password: String,
 
     /// Compression level
