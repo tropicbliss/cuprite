@@ -65,6 +65,7 @@ impl FileManipulator {
                     if RE.is_match(file_name)
                         && DateTime::parse_from_str(&file_name[7..26], DATE_FORMAT).is_ok()
                     {
+                        println!("{}", &file_name[7..26]);
                         path.metadata()?;
                         path.metadata().unwrap().created()?;
                         result.push(path);
