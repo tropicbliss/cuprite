@@ -4,7 +4,7 @@ A fast and simple to use Minecraft server backup daemon.
 
 ## Install
 
-Download the [latest release]() for your operating system.
+Download the [latest release](https://github.com/tropicbliss/cuprite/releases/latest) for your operating system.
 
 ```shell
 sudo chmod +x cuprite
