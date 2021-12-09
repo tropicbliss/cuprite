@@ -35,12 +35,12 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -c <compression-level>             Compression level [default: 3]
-    -i, --input-dir <input-dir>        Input directory (directory to backup) [default: world]
-    -m, --max-backups <max-backups>    Maximum number of backups to keep [default: 128]
-    -o, --output-dir <output-dir>      Output directory [default: backups]
-    -p, --password <rcon-password>     RCON password [default: ]
-    -P, --port <rcon-port>             RCON port [default: 25575]
+    -c, --compression-level <compression-level>    Compression level [default: 3]
+    -i, --input-dir <input-dir>                    Input directory (directory to backup) [default: world]
+    -m, --max-backups <max-backups>                Maximum number of backups to keep [default: 128]
+    -o, --output-dir <output-dir>                  Output directory [default: backups]
+    -p, --password <rcon-password>                 RCON password [default: ]
+    -P, --port <rcon-port>                         RCON port [default: 25575]
 ```
 
 ### Automating backups with CRON
