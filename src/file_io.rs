@@ -1,11 +1,13 @@
 use anyhow::{bail, Context, Result};
-use chrono::Local;
+use chrono::{DateTime, Local};
 use flate2::write::GzEncoder;
 use flate2::Compression;
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs::{create_dir_all, read_dir, remove_file, File};
 use std::path::PathBuf;
+
+const DATE_FORMAT: &str = "%Y-%m-%d-%H-%M-%S";
 
 pub struct FileManipulator {
     input: PathBuf,
@@ -40,7 +42,7 @@ impl FileManipulator {
         let mut output_path = self.output.clone();
         output_path.push(format!(
             "Backup-{}.tar.gz",
-            Local::now().format("%Y-%m-%d-%H-%M-%S")
+            Local::now().format(DATE_FORMAT)
         ));
         let tar_gz = File::create(output_path)?;
         let enc = GzEncoder::new(tar_gz, Compression::new(self.compression_level));
@@ -52,8 +54,7 @@ impl FileManipulator {
 
     pub fn truncate_target_dir(&self) -> Result<()> {
         lazy_static! {
-            static ref RE: Regex =
-                Regex::new(r"^Backup-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}.tar.gz$").unwrap();
+            static ref RE: Regex = Regex::new("^Backup-.*zip$").unwrap();
         }
         create_dir_all(&self.output)?;
         let mut result = Vec::new();
@@ -61,7 +62,9 @@ impl FileManipulator {
             let path = path?;
             if path.file_type()?.is_file() {
                 if let Some(file_name) = path.file_name().to_str() {
-                    if RE.is_match(file_name) {
+                    if RE.is_match(file_name)
+                        && DateTime::parse_from_str(&file_name[7..26], DATE_FORMAT).is_ok()
+                    {
                         path.metadata()?;
                         path.metadata().unwrap().created()?;
                         result.push(path);
