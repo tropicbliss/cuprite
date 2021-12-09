@@ -15,23 +15,6 @@ async fn main() -> Result<()> {
         usize::from(args.max_backups),
         args.compression_level,
     );
-    if let Err(e) = manipulator
-        .truncate_target_dir()
-        .with_context(|| "Failed to truncate target directory")
-    {
-        let mut server = minecraft::Server::new(args.rcon_port, args.rcon_password)
-            .await
-            .with_context(|| "Failed to connect to server")?;
-        server
-            .connect()
-            .await
-            .with_context(|| "Failed to send initial RCON messages")?;
-        server
-            .disconnect(false)
-            .await
-            .with_context(|| "Failed to send final RCON messages")?;
-        bail!(e);
-    }
     let mut server = minecraft::Server::new(args.rcon_port, args.rcon_password)
         .await
         .with_context(|| "Failed to connect to server")?;
@@ -39,6 +22,16 @@ async fn main() -> Result<()> {
         .connect()
         .await
         .with_context(|| "Failed to send initial RCON messages")?;
+    if let Err(e) = manipulator
+        .truncate_target_dir()
+        .with_context(|| "Failed to truncate target directory")
+    {
+        server
+            .disconnect(false)
+            .await
+            .with_context(|| "Failed to send final RCON messages")?;
+        bail!(e);
+    }
     match manipulator.read_to_zip() {
         Ok(_) => {
             server
