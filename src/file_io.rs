@@ -1,5 +1,5 @@
 use anyhow::{bail, Context, Result};
-use chrono::{DateTime, Local};
+use chrono::{Local, TimeZone, Utc};
 use flate2::write::GzEncoder;
 use flate2::Compression;
 use lazy_static::lazy_static;
@@ -63,9 +63,10 @@ impl FileManipulator {
             if path.file_type()?.is_file() {
                 if let Some(file_name) = path.file_name().to_str() {
                     if RE.is_match(file_name)
-                        && DateTime::parse_from_str(&file_name[7..26], DATE_FORMAT).is_ok()
+                        && Utc
+                            .datetime_from_str(&file_name[7..26], DATE_FORMAT)
+                            .is_ok()
                     {
-                        println!("{}", &file_name[7..26]);
                         path.metadata()?;
                         path.metadata().unwrap().created()?;
                         result.push(path);
