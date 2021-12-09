@@ -22,7 +22,7 @@ pub struct Args {
     pub rcon_port: u16,
 
     /// RCON password
-    #[structopt(short = "p", long = "password", default_value = "")]
+    #[structopt(short = "p", long = "password")]
     pub rcon_password: String,
 
     /// Compression level
