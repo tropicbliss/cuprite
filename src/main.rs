@@ -13,7 +13,7 @@ async fn main() -> Result<()> {
         args.input_dir,
         args.output_dir,
         usize::from(args.max_backups),
-        args.compression_level
+        args.compression_level,
     );
     if let Err(e) = manipulator
         .truncate_target_dir()
