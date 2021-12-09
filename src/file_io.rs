@@ -36,11 +36,12 @@ impl FileManipulator {
     }
 
     fn zip_dir(&self) -> Result<()> {
-        let output_path = format!("Backup-{}.tar.gz", Local::now().format("%Y-%m-%d-%H-%M-%S"));
+        let mut output_path = self.output.clone();
+        output_path.push(format!("Backup-{}.tar.gz", Local::now().format("%Y-%m-%d-%H-%M-%S")));
         let tar_gz = File::create(output_path)?;
         let enc = GzEncoder::new(tar_gz, Compression::default());
         let mut tar = tar::Builder::new(enc);
-        tar.append_dir_all(&self.output, &self.input)?;
+        tar.append_dir_all(&self.input, &self.input)?;
         tar.finish()?;
         Ok(())
     }
