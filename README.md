@@ -6,7 +6,8 @@ A fast and simple to use Minecraft server backup daemon.
 
 ### Pre-compiled binaries (only available for x86-64 Linux systems)
 
-Download the [latest release](https://github.com/tropicbliss/cuprite/releases/latest).
+- Download the [latest release](https://github.com/tropicbliss/cuprite/releases/latest)
+- Make the downloaded binary executable
 
 ```shell
 sudo chmod +x cuprite
