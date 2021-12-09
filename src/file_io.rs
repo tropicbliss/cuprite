@@ -12,14 +12,16 @@ pub struct FileManipulator {
     input: PathBuf,
     output: PathBuf,
     max_files: usize,
+    compression_level: u32,
 }
 
 impl FileManipulator {
-    pub fn new(input: PathBuf, output: PathBuf, max_files: usize) -> Self {
+    pub fn new(input: PathBuf, output: PathBuf, max_files: usize, compression_level: u32) -> Self {
         Self {
             input,
             output,
             max_files,
+            compression_level,
         }
     }
 
@@ -37,9 +39,12 @@ impl FileManipulator {
 
     fn zip_dir(&self) -> Result<()> {
         let mut output_path = self.output.clone();
-        output_path.push(format!("Backup-{}.tar.gz", Local::now().format("%Y-%m-%d-%H-%M-%S")));
+        output_path.push(format!(
+            "Backup-{}.tar.gz",
+            Local::now().format("%Y-%m-%d-%H-%M-%S")
+        ));
         let tar_gz = File::create(output_path)?;
-        let enc = GzEncoder::new(tar_gz, Compression::default());
+        let enc = GzEncoder::new(tar_gz, Compression::new(self.compression_level));
         let mut tar = tar::Builder::new(enc);
         tar.append_dir_all(&self.input, &self.input)?;
         tar.finish()?;
