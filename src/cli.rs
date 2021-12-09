@@ -26,7 +26,7 @@ pub struct Args {
     pub rcon_password: String,
 
     /// Compression level
-    #[structopt(short = "c", default_value = "3")]
+    #[structopt(short = "c", long, default_value = "3")]
     pub compression_level: u32,
 }
 
