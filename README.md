@@ -35,6 +35,7 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
+    -c <compression-level>             Compression level [default: 3]
     -i, --input-dir <input-dir>        Input directory (directory to backup) [default: world]
     -m, --max-backups <max-backups>    Maximum number of backups to keep [default: 128]
     -o, --output-dir <output-dir>      Output directory [default: backups]

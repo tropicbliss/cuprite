@@ -6,7 +6,6 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs::{create_dir_all, read_dir, remove_file, File};
 use std::path::PathBuf;
-use tar::Builder;
 
 pub struct FileManipulator {
     input: PathBuf,

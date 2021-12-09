@@ -5,7 +5,6 @@ mod file_io;
 mod minecraft;
 
 use anyhow::{bail, Context, Result};
-use std::io::{stdout, Write};
 
 #[async_std::main]
 async fn main() -> Result<()> {
@@ -14,6 +13,7 @@ async fn main() -> Result<()> {
         args.input_dir,
         args.output_dir,
         usize::from(args.max_backups),
+        args.compression_level
     );
     if let Err(e) = manipulator
         .truncate_target_dir()
