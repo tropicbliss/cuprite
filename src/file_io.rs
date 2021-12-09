@@ -38,7 +38,6 @@ impl FileManipulator {
     }
 
     fn zip_dir(&self, it: &mut dyn Iterator<Item = DirEntry>) -> Result<()> {
-        create_dir_all(&self.output)?;
         let mut output_path = self.output.clone();
         output_path.push(format!(
             "Backup-{}.zip",
@@ -75,6 +74,7 @@ impl FileManipulator {
         lazy_static! {
             static ref RE: Regex = Regex::new("^Backup-.*zip$").unwrap();
         }
+        create_dir_all(&self.output)?;
         let mut result = Vec::new();
         for path in read_dir(&self.output)? {
             let path = path?;
