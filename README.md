@@ -16,6 +16,8 @@ sudo chmod +x cuprite
 ./cuprite -i world -m 128 -o backups -p password -P 25575
 ```
 
+It's a good idea to run `cuprite` on the terminal first to verify that you have inputted your arguments correctly before attempting to automate your backups with CRON.
+
 ### Enable RCON
 
 ```
