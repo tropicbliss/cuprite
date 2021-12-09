@@ -54,7 +54,7 @@ impl FileManipulator {
 
     pub fn truncate_target_dir(&self) -> Result<()> {
         lazy_static! {
-            static ref RE: Regex = Regex::new("^Backup-.*zip$").unwrap();
+            static ref RE: Regex = Regex::new("^Backup-.*tar.gz$").unwrap();
         }
         create_dir_all(&self.output)?;
         let mut result = Vec::new();
