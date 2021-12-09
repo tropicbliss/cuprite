@@ -2,7 +2,7 @@ use anyhow::{bail, Context, Result};
 use chrono::Local;
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::fs::{read_dir, remove_file, File};
+use std::fs::{read_dir, remove_file, File, create_dir_all};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use walkdir::{DirEntry, WalkDir};
@@ -38,6 +38,7 @@ impl FileManipulator {
     }
 
     fn zip_dir(&self, it: &mut dyn Iterator<Item = DirEntry>) -> Result<()> {
+        create_dir_all(&self.output);
         let mut output_path = self.output.clone();
         output_path.push(format!(
             "Backup-{}.zip",
