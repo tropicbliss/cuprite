@@ -52,4 +52,4 @@ OPTIONS:
 
 ## Disclaimer
 
-This software does not provide any warranty with regard to the loss of world data.
+This software does not provide any warranty with regard to any loss of data.
