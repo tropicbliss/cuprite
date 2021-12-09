@@ -70,7 +70,7 @@ impl FileManipulator {
                 }
             }
         }
-        result.sort_by_key(|path| path.metadata().unwrap().modified().unwrap());
+        result.sort_by_key(|path| path.metadata().unwrap().created().unwrap());
         if result.len() >= self.max_files {
             let surplus = result.len() - self.max_files + 1;
             let files_to_remove = &result[0..surplus];
