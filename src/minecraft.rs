@@ -16,9 +16,7 @@ impl Server {
     }
 
     pub async fn connect(&mut self) -> Result<()> {
-        self.client
-            .cmd("say Starting backup...")
-            .await?;
+        self.client.cmd("say Starting backup...").await?;
         self.client.cmd("save-off").await?;
         self.client.cmd("save-all").await?;
         Ok(())
@@ -27,9 +25,7 @@ impl Server {
     pub async fn disconnect(&mut self, is_success: bool) -> Result<()> {
         self.client.cmd("save-on").await?;
         if is_success {
-            self.client
-                .cmd("say Backup complete!")
-                .await?;
+            self.client.cmd("say Backup complete!").await?;
         } else {
             self.client
                 .cmd("say Backup is not saved! Please notify an administrator")

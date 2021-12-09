@@ -1,12 +1,11 @@
 use anyhow::{bail, Context, Result};
 use chrono::Local;
+use flate2::write::GzEncoder;
+use flate2::Compression;
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs::{create_dir_all, read_dir, remove_file, File};
-use std::io::{Read, Write};
-use std::path::{Path, PathBuf};
-use walkdir::{DirEntry, WalkDir};
-use zip::write::FileOptions;
+use std::path::PathBuf;
 
 pub struct FileManipulator {
     input: PathBuf,
@@ -30,49 +29,24 @@ impl FileManipulator {
         if !self.output.is_dir() {
             bail!("Output path is not a directory");
         }
-        let walk_dir = WalkDir::new(&self.input);
-        let iterator = walk_dir.into_iter();
-        self.zip_dir(&mut iterator.filter_map(std::result::Result::ok))
-            .with_context(|| "Failed to zip directory")?;
+        self.zip_dir()
+            .with_context(|| "Failed to compress directory into tarball")?;
         Ok(())
     }
 
-    fn zip_dir(&self, it: &mut dyn Iterator<Item = DirEntry>) -> Result<()> {
-        let mut output_path = self.output.clone();
-        output_path.push(format!(
-            "Backup-{}.zip",
-            Local::now().format("%Y-%m-%d-%H-%M-%S")
-        ));
-        let writer = File::create(output_path)?;
-        let mut zip = zip::ZipWriter::new(writer);
-        let options = FileOptions::default()
-            .compression_method(zip::CompressionMethod::Deflated)
-            .unix_permissions(0o755);
-        let mut buffer = Vec::new();
-        for entry in it {
-            let path = entry.path();
-            let name = path.strip_prefix(Path::new(&self.input))?;
-            if path.is_file() {
-                if let Some(dir) = name.to_str() {
-                    zip.start_file(dir, options)?;
-                    let mut f = File::open(path)?;
-                    f.read_to_end(&mut buffer)?;
-                    zip.write_all(&*buffer)?;
-                    buffer.clear();
-                }
-            } else if !name.as_os_str().is_empty() {
-                if let Some(dir) = name.to_str() {
-                    zip.add_directory(dir, options)?;
-                }
-            }
-        }
-        zip.finish()?;
+    fn zip_dir(&self) -> Result<()> {
+        let output_path = format!("Backup-{}.tar.gz", Local::now().format("%Y-%m-%d-%H-%M-%S"));
+        let tar_gz = File::create(output_path)?;
+        let enc = GzEncoder::new(tar_gz, Compression::default());
+        let mut tar = tar::Builder::new(enc);
+        tar.append_dir_all(&self.output, &self.input)?;
         Ok(())
     }
 
     pub fn truncate_target_dir(&self) -> Result<()> {
         lazy_static! {
-            static ref RE: Regex = Regex::new("^Backup-.*zip$").unwrap();
+            static ref RE: Regex =
+                Regex::new(r"^Backup-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}.tar.gz$").unwrap();
         }
         create_dir_all(&self.output)?;
         let mut result = Vec::new();
