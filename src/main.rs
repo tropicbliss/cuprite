@@ -19,7 +19,7 @@ async fn main() -> Result<()> {
     let manipulator = file_io::FileManipulator::new(
         args.input_dir,
         args.output_dir,
-        usize::from(args.max_backups),
+        args.max_backups,
         args.compression_level,
     );
     if let Err(e) = manipulator

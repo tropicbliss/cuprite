@@ -5,6 +5,7 @@ use flate2::Compression;
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs::{create_dir_all, read_dir, remove_file, File};
+use std::num::NonZeroUsize;
 use std::path::PathBuf;
 
 const DATE_FORMAT: &str = "%Y-%m-%d-%H-%M-%S";
@@ -12,12 +13,17 @@ const DATE_FORMAT: &str = "%Y-%m-%d-%H-%M-%S";
 pub struct FileManipulator {
     input: PathBuf,
     output: PathBuf,
-    max_files: usize,
+    max_files: NonZeroUsize,
     compression_level: u32,
 }
 
 impl FileManipulator {
-    pub fn new(input: PathBuf, output: PathBuf, max_files: usize, compression_level: u32) -> Self {
+    pub fn new(
+        input: PathBuf,
+        output: PathBuf,
+        max_files: NonZeroUsize,
+        compression_level: u32,
+    ) -> Self {
         Self {
             input,
             output,
@@ -75,8 +81,9 @@ impl FileManipulator {
             }
         }
         result.sort_by_key(|path| path.metadata().unwrap().created().unwrap());
-        if result.len() >= self.max_files {
-            let surplus = result.len() - self.max_files + 1;
+        let max_files = usize::from(self.max_files);
+        if result.len() >= max_files {
+            let surplus = result.len() - max_files + 1;
             let files_to_remove = &result[0..surplus];
             for file in files_to_remove {
                 remove_file(file.path())?;
