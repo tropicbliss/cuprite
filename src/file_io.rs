@@ -5,6 +5,7 @@ use flate2::Compression;
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs::{create_dir_all, read_dir, remove_file, File};
+use std::io::BufWriter;
 use std::num::NonZeroUsize;
 use std::path::PathBuf;
 
@@ -50,7 +51,7 @@ impl FileManipulator {
             "Backup-{}.tar.gz",
             Local::now().format(DATE_FORMAT)
         ));
-        let tar_gz = File::create(output_path)?;
+        let tar_gz = BufWriter::new(File::create(output_path)?);
         let enc = GzEncoder::new(tar_gz, Compression::new(self.compression_level));
         let mut tar = tar::Builder::new(enc);
         tar.append_dir_all(&self.input_dir, &self.input_dir)?;
