@@ -1,4 +1,4 @@
-use anyhow::{bail, Context, Result};
+use anyhow::Result;
 use chrono::{Local, TimeZone, Utc};
 use flate2::write::GzEncoder;
 use flate2::Compression;
