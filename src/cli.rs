@@ -5,12 +5,12 @@ use structopt::StructOpt;
 #[derive(StructOpt)]
 #[structopt(author, about)]
 pub struct Args {
-    /// Input directory (directory to backup)
-    #[structopt(short, long, default_value = "world")]
-    pub input_dir: PathBuf,
+    /// Input directories (directories to backup)
+    #[structopt(short, long, default_value = "world", parse(from_os_str))]
+    pub input_dirs: Vec<PathBuf>,
 
     /// Output directory
-    #[structopt(short, long, default_value = "backups")]
+    #[structopt(short, long, default_value = "backups", parse(from_os_str))]
     pub output_dir: PathBuf,
 
     /// Maximum number of backups to keep

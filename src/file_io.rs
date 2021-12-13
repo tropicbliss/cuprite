@@ -12,7 +12,7 @@ use std::path::PathBuf;
 const DATE_FORMAT: &str = "%Y-%m-%d-%H-%M-%S";
 
 pub struct FileManipulator {
-    input_dir: PathBuf,
+    input_dirs: Vec<PathBuf>,
     output_dir: PathBuf,
     max_backups: NonZeroUsize,
     compression_level: u32,
@@ -20,13 +20,13 @@ pub struct FileManipulator {
 
 impl FileManipulator {
     pub fn new(
-        input_dir: PathBuf,
+        input_dirs: Vec<PathBuf>,
         output_dir: PathBuf,
         max_backups: NonZeroUsize,
         compression_level: u32,
     ) -> Self {
         Self {
-            input_dir,
+            input_dirs,
             output_dir,
             max_backups,
             compression_level,
@@ -34,8 +34,10 @@ impl FileManipulator {
     }
 
     pub fn read_to_zip(&self) -> Result<()> {
-        if !self.input_dir.is_dir() {
-            bail!("Input path is not a directory");
+        for input_dir in &self.input_dirs {
+            if !input_dir.is_dir() {
+                bail!("The input path `{}` is not a directory", input_dir.display());
+            }
         }
         if !self.output_dir.is_dir() {
             bail!("Output path is not a directory");
@@ -54,7 +56,9 @@ impl FileManipulator {
         let tar_gz = BufWriter::new(File::create(output_path)?);
         let enc = GzEncoder::new(tar_gz, Compression::new(self.compression_level));
         let mut tar = tar::Builder::new(enc);
-        tar.append_dir_all(&self.input_dir, &self.input_dir)?;
+        for input_dir in &self.input_dirs {
+            tar.append_dir_all(input_dir, input_dir)?;
+        }
         tar.finish()?;
         Ok(())
     }

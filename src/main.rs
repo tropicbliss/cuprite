@@ -17,7 +17,7 @@ async fn main() -> Result<()> {
         .await
         .with_context(|| "Failed to send initial RCON messages")?;
     let manipulator = file_io::FileManipulator::new(
-        args.input_dir,
+        args.input_dirs,
         args.output_dir,
         args.max_backups,
         args.compression_level,
