@@ -81,7 +81,7 @@ impl FileManipulator {
                 }
             }
         }
-        result.sort_by_key(|path| path.metadata().unwrap().modified().unwrap());
+        result.sort_unstable_by_key(|path| path.metadata().unwrap().modified().unwrap());
         let max_backups = usize::from(self.max_backups);
         if result.len() >= max_backups {
             let surplus = result.len() - max_backups + 1;
