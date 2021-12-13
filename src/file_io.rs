@@ -34,14 +34,6 @@ impl FileManipulator {
     }
 
     pub fn read_to_zip(&self) -> Result<()> {
-        for input_dir in &self.input_dirs {
-            if !input_dir.is_dir() {
-                bail!("The input path `{}` is not a directory", input_dir.display());
-            }
-        }
-        if !self.output_dir.is_dir() {
-            bail!("Output path is not a directory");
-        }
         self.zip_dir()
             .with_context(|| "Failed to compress directory into tarball")?;
         Ok(())
