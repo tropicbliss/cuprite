@@ -34,7 +34,7 @@ The binary will be located in `target/release`.
 ## Usage
 
 ```shell
-./cuprite -i world -m 128 -o backups -P password -p 25575 -c 3
+./cuprite -i world plugins -m 128 -o backups -P password -p 25575 -c 3
 ```
 
 ### Enable RCON
@@ -57,7 +57,7 @@ FLAGS:
 
 OPTIONS:
     -c, --compression-level <compression-level>    Compression level [default: 3]
-    -i, --input-dir <input-dir>                    Input directory (directory to backup) [default: world]
+    -i, --input-dirs <input-dirs>...               Input directories (directories to backup) [default: world]
     -m, --max-backups <max-backups>                Maximum number of backups to keep [default: 128]
     -o, --output-dir <output-dir>                  Output directory [default: backups]
     -P, --password <rcon-password>                 RCON password
