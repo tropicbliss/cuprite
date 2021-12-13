@@ -34,12 +34,6 @@ impl FileManipulator {
     }
 
     pub fn read_to_zip(&self) -> Result<()> {
-        self.zip_dir()
-            .with_context(|| "Failed to compress directory into tarball")?;
-        Ok(())
-    }
-
-    fn zip_dir(&self) -> Result<()> {
         let mut output_path = self.output_dir.clone();
         output_path.push(format!(
             "Backup-{}.tar.gz",

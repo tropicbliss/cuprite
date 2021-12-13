@@ -32,7 +32,10 @@ async fn main() -> Result<()> {
             .with_context(|| "Failed to send final RCON messages")?;
         bail!(e);
     }
-    match manipulator.read_to_zip() {
+    match manipulator
+        .read_to_zip()
+        .with_context(|| "Failed to compress directory into tarball")
+    {
         Ok(_) => {
             server
                 .disconnect(true)
