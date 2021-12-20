@@ -1,14 +1,14 @@
 use anyhow::Result;
-use rcon::Connection;
+use rcon::{AsyncStdStream, Connection};
 
 pub struct Server {
-    client: Connection,
+    client: Connection<AsyncStdStream>,
 }
 
 impl Server {
     pub async fn new(port: u16, password: String) -> Result<Self> {
         let addr = format!("localhost:{}", port);
-        let client = Connection::builder()
+        let client = <Connection<AsyncStdStream>>::builder()
             .enable_minecraft_quirks(true)
             .connect(addr, &password)
             .await?;
