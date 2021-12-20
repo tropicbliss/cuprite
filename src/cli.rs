@@ -6,11 +6,11 @@ use structopt::StructOpt;
 #[structopt(author, about)]
 pub struct Args {
     /// Input directories (directories to backup)
-    #[structopt(short, long, default_value = "world", parse(from_os_str))]
+    #[structopt(short, long, parse(from_os_str))]
     pub input_dirs: Vec<PathBuf>,
 
     /// Output directory
-    #[structopt(short, long, default_value = "backups", parse(from_os_str))]
+    #[structopt(short, long, parse(from_os_str))]
     pub output_dir: PathBuf,
 
     /// Maximum number of backups to keep
