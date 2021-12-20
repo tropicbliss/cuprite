@@ -71,7 +71,7 @@ It's a good idea to run `cuprite` on the terminal first to verify that you have 
 - Edit the crontab with `crontab -e`
 
 ```
-00 * * * * /path/to/cuprite
+0 * * * * /path/to/cuprite -i minecraft/world minecraft/world_nether minecraft/world_the_end -o minecraft/backups -P password
 ```
 
 ## Disclaimer
