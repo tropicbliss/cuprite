@@ -57,9 +57,9 @@ FLAGS:
 
 OPTIONS:
     -c, --compression-level <compression-level>    Compression level [default: 3]
-    -i, --input-dirs <input-dirs>...               Input directories (directories to backup) [default: world]
+    -i, --input-dirs <input-dirs>...               Input directories (directories to backup)
     -m, --max-backups <max-backups>                Maximum number of backups to keep [default: 128]
-    -o, --output-dir <output-dir>                  Output directory [default: backups]
+    -o, --output-dir <output-dir>                  Output directory
     -P, --password <rcon-password>                 RCON password
     -p, --port <rcon-port>                         RCON port [default: 25575]
 ```
