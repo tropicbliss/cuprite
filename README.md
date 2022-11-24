@@ -1,10 +1,6 @@
 # cuprite
 
-A fast and simple Minecraft server backup daemon.
-
-## Video demonstration
-
-- [The Fastest Minecraft Server Backup Tool in the West](https://www.youtube.com/watch?v=vEb6JNC3Wvs)
+A fast and simple Minecraft server backup thingy.
 
 ## Install
 
